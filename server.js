@@ -10,11 +10,22 @@ app.get("/",(req, res) => {
     res.send("Servidor funcionando...");
 })
 
-app.get("/bruxos/:id", (req, res) => {
-})
+app.get("/bruxos", (req, res) => {
+  res.json(bruxos);
+});
 
 app.get("/bruxos/:id", (req, res) => {
-})
+  const id = parseInt(req.params.id);
+  const bruxo = bruxos.find((b) => b.id === id);
+
+  if (bruxo) {
+    res.status(200).json(bruxo);
+  } else {
+    res.status(404).json({
+      mensagem: "Bruxo(a) não encontrado!",
+    });
+  }
+});
 
 app.get("/bruxos/nome/:nome", (req, res) => {
     let nome = req.params.nome;
@@ -29,6 +40,7 @@ app.get("/bruxos/nome/:nome", (req, res) => {
             mensagem: "Bruxo não encontrado!"
     }
 })
+
 app.listen(serverPort, () => {
     console.log("Servidor está rodando...");
 });
